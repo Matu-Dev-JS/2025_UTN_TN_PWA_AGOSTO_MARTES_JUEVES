@@ -5,3 +5,11 @@ import App from './App.jsx'
 createRoot(document.getElementById('root')).render(
   <App />
 )
+
+
+/* 
+-Componentes
+-Estados
+-Contexto (Opcional)
+-Custom Hooks
+*/
