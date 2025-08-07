@@ -148,6 +148,7 @@ ACLARACION: Pueden hacer mas funciones si lo requieren
         case '/':
             if (num2 === 0) {
                 return 'Error: división por cero';
+                
             }
             return num1 / num2;
         default:
