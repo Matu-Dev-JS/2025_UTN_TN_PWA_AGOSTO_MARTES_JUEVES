@@ -39,13 +39,23 @@ Crear la class Item
   -precio
   -id
   -descripcion
+  -Mostrar item: Mostrara por consola el mensaje: {nombre} es {descripcion} y cuesta ${precio} Rupias
 
 Crear la class Tienda
   -nombre
   -cantidad_dinero_en_cuenta
   -items: Item[],
   -id
+  -buscarItemPorId(id_item_buscado) 
+    -buscar en la lista de items el item buscado y devolvera el mismo, sino devolvera null
 
+  -eliminarPorId(id_item_buscado): true (si elmina) | false (si no elimina)
+    -eliminar el item con el id recibido y devolver un boolean de status
+
+  -vender(id_item_vendido) 
+    -Buscar el item en la lista de items, si existe lo va a eliminar y incrementara su cantidad de dinero en cuenta igual al precio del item
+    -Si no hay item con ese id lanzar mensaje de error "Producto no encontrado"
+  
 */
 
 class Item {
@@ -73,3 +83,21 @@ class Tienda {
 	}
 
 }
+
+function retornarAlgo () : {nombre: string} | null {
+  if(Math.random( ) > 0.5){
+    return {nombre: 'pepe'}
+  }
+  return null
+}
+function hacerXAccion () {
+  let result = retornarAlgo()
+  if(!result){
+    console.log('Error')
+  }
+  else{
+    console.log(result.nombre)
+  }
+}
+
+hacerXAccion()
