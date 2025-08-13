@@ -1,18 +1,6 @@
-class Item {
-    nombre: string
-    precio: number
-    id: number
-    descripcion: string
-    constructor(nombre: string, precio: number, id: number, descripcion: string) {
-        this.nombre = nombre
-        this.precio = precio
-        this.id = id
-        this.descripcion = descripcion
-    }
-    mostrarItem(): void {
-        console.log(`${this.nombre} es ${this.descripcion} y cuesta ${this.precio}`)
-    }
-}
+import Item from "./Item"
+import type Proveedor from "./Proveedor"
+
 
 interface ItemTiendaConstructorParams {
     nombre: string, 
@@ -94,33 +82,37 @@ class Tienda {
         item.setStock(item.stock - cantidad_vendida)
         this.cantidad_de_dinero_en_cuenta += (item.precio * cantidad_vendida)
     }
-    comprar(nuevo_item: Item, cantidad: number, margen_ganancia: number): boolean {
+    comprar(proveedor: Proveedor, id_producto: number, cantidad: number, margen_ganancia: number): boolean {
+        const objeto_de_compra = proveedor.comprar(id_producto, cantidad)
+        if(!objeto_de_compra){
+            console.error('Error en la compra')
+            return false
+        }
 
-        const costo_compra = nuevo_item.precio * cantidad
-        if (this.cantidad_de_dinero_en_cuenta < costo_compra) {
+        if (this.cantidad_de_dinero_en_cuenta < objeto_de_compra.precio_final) {
             console.error("No hay dinero suficiente")
             return false
         }
 
-        const item_existente = this.buscarItemPorId(nuevo_item.id)
+        /* buscamos el item en nuestra lista de inventario, por si ya lo tenemos y no registrarlo nuevamente */
+        const item_existente = this.buscarItemPorId(objeto_de_compra.item_comprado.id)
         
         if (item_existente) {
-            this.cantidad_de_dinero_en_cuenta -= costo_compra
+            this.cantidad_de_dinero_en_cuenta -= objeto_de_compra.precio_final
             item_existente.setStock(item_existente.stock + cantidad)
-            return true
         } 
         else {
             this.crearItemTienda({
-                nombre: nuevo_item.nombre,
-                precio: nuevo_item.precio,
-                id: nuevo_item.id,
-                descripcion: nuevo_item.descripcion,
+                nombre: objeto_de_compra.item_comprado.nombre,
+                precio: objeto_de_compra.item_comprado.precio,
+                id: objeto_de_compra.item_comprado.id,
+                descripcion: objeto_de_compra.item_comprado.descripcion,
                 stock: cantidad,
                 margen_ganancia: margen_ganancia
             })
-            this.cantidad_de_dinero_en_cuenta -= costo_compra
-            return true
         }
+        this.cantidad_de_dinero_en_cuenta -= objeto_de_compra.precio_final
+        return true
     }
     crearItemTienda(
         {
@@ -137,6 +129,8 @@ class Tienda {
     }
 }
 
+export default Tienda
+
 
 /* 
 
@@ -150,7 +144,13 @@ Proveedor
     -id
     -items : ItemProveedor
 
-    comprar(id_producto, cantidad_comprada) : {precio_final, item_comprado : ItemProveedor}
-    
+    comprar(id_producto, cantidad_comprada) : {precio_final, item_comprado : ItemProveedor, cantidad}
+    registrarItem(nombre, precio, descripcion ) : id_item_proveedor_creado -> Crear un nuevo ItemProveedor, asignarle un ID y sumarlo a la lista de items
 
 */
+/* 
+const marolio = new Proveedor('Marolio')
+const id_salsa_tomate = marolio.registrarItem('salsa de tomate', 2000, 'salsa muy rica')
+
+const {precio_final, item_comprado, cantidad } = marolio.comprar(id_salsa_tomate, 3)
+ */
