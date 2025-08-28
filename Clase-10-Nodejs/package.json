@@ -1,0 +1,14 @@
+{
+  "name": "clase-10-nodejs",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "start": "node script.js",
+    "dev": "node --watch script.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matu.dev",
+  "license": "ISC",
+  "type": "module",
+  "description": "Estoy aprendiendo Node.js"
+}
