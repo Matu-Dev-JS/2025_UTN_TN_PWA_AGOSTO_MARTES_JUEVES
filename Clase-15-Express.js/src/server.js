@@ -1,23 +1,32 @@
 import ENVIRONMENT from "./config/environment.config.js";
 import connectMongoDB from "./config/mongoDB.config.js";
 import workspace_router from "./routes/workspace.route.js";
+import handlebars from 'express-handlebars'
 connectMongoDB()
 
 import express from 'express'
 
 
-//Crear una aplicacion de express (Un servidor web)
 const app = express()
 
-//Hablilitamos el envio de JSON
-//Sino esta esta opcion NO nos pueden enviar JSON
-//primero habilitamos que nos envien JSON
-//middleware, cada vez que me llegue una consulta checkearemos si es JSON y la parsearemos a un objeto de JS
+//Configurar a mi app de express para que use handlebars como motor de plantillas
+app.engine('handlebars', handlebars.engine())
+
+/* Delegamos a handlebars como motor de vistas (plantillas) */
+app.set('view engine', 'handlebars');
+
+/* Marcamos la carpeta donde estaran las plantillas */
+app.set('views', '/src/views');
+
 app.use(express.json())
 
 
-//luego configuramos nuestro enrutador
-//Configurando en mi app (server) que todas las consultas que empiezen con /api/workspace se delegen al workspace_router
+app.get('/test', (request, response) =>{
+
+    //Respondo con la plantilla home.handlebars 
+    response.render('home')
+})
+
 app.use('/api/workspace', workspace_router)
 
 
