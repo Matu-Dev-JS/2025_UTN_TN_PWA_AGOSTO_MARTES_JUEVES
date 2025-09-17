@@ -14,6 +14,7 @@ class WorkspacesRepository {
     }
     static async getAll (){
         const workspaces_get = await Workspaces.find()
+
         return workspaces_get
     }
 
