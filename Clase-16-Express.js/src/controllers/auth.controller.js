@@ -33,6 +33,10 @@ class AuthController {
                 )
             }
             await AuthService.register(username, password, email)
+
+            response.json({
+                ok: true
+            })
         }
         catch (error) {
             console.log(error)
