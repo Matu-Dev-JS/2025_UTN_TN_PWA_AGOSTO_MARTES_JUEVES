@@ -39,6 +39,12 @@ class UserRepository {
 
         return user_updated
     }
+
+
+    static async getByEmail (email){
+        const user = await Users.findOne({email: email})
+        return user
+    }
 }
 
 export default UserRepository
