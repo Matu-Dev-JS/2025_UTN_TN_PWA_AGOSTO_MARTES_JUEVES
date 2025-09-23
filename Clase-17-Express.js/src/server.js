@@ -29,6 +29,7 @@ connectMongoDB()
 
 import express from 'express'
 import auth_router from "./routes/auth.router.js";
+import UserRepository from "./repositories/user.repository.js";
 
 
 const app = express()
@@ -47,4 +48,3 @@ app.listen(
         console.log("Esto esta funcionado")
     }
 )
-

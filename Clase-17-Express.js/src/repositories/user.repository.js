@@ -4,12 +4,12 @@ import Users from "../models/User.model.js";
 class UserRepository {
     static async createUser(name, email, password){
         //Logica de interaccion con la DB para crear el usuario
-        await Users.insertOne({
+        const result =  await Users.insertOne({
             name: name,
             email: email,
             password: password,
         })
-        return true
+        return result
     }
 
     static async getAll (){

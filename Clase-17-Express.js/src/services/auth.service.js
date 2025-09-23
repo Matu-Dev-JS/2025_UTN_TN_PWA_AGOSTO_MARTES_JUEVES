@@ -20,10 +20,11 @@ class AuthService {
         const password_hashed = await bcrypt.hash(password, 12)
 
         //guardarlo en la DB
-        await UserRepository.createUser(username, email, password_hashed)
+        const user_created = await UserRepository.createUser(username, email, password_hashed)
         const verification_token = jwt.sign(
             {
-                email: email
+                email: email,
+                user_id: user_created._id
             },
             ENVIRONMENT.JWT_SECRET_KEY
         )
@@ -38,6 +39,28 @@ class AuthService {
             <a href='http://localhost:8080/api/auth/verify-email/${verification_token}'>Verificar email</a>
             `
         })
+    }
+
+    static async verifyEmail(verification_token){
+        try{
+            const payload = jwt.verify(verification_token, ENVIRONMENT.JWT_SECRET_KEY)
+
+            await UserRepository.updateById(
+                payload.user_id, 
+                {
+                    verified_email: true
+                }
+            )
+
+            return 
+
+        }
+        catch(error){
+            if(error instanceof jwt.JsonWebTokenError){
+                throw new  ServerError(400, 'Token invalido')
+            }
+            throw error
+        }
     }
 }
 
