@@ -62,6 +62,44 @@ class AuthService {
             throw error
         }
     }
+
+    static async login(email, password){
+        /* 
+        - Buscar por email y guardar en una variable
+            - No se encontro: Tiramos error 404 'Email no registrado' / 'El email o la contraseña son invalidos'
+        - Usamos bcrypt.compare para checkear que la password recibida sea igual al hash guardado en DB
+            - En caso de que no sean iguales: 401 (Unauthorized) 'Contraseña invalida' / 'El email o la contraseña son invalidos'
+        - Generar el authorization_token con los datos que coinsideremos importantes para una sesion: (name, email, rol, created_at) (NO PASAR DATOS SENSIBLES)
+        - Retornar el token
+        */
+
+        const user = await UserRepository.getByEmail(email)
+        if(!user){
+            throw new ServerError(404, 'Email no registrado')
+        }
+        /* Permite saber si cierto valor es igual a otro cierto valor encriptado */
+        const is_same_password = await bcrypt.compare(password, user.password)
+        if(!is_same_password){
+            throw new ServerError(401, 'Contraseña incorrecta')
+        }
+        const authorization_token = jwt.sign(
+            {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                created_at: user.created_at
+            },
+            ENVIRONMENT.JWT_SECRET_KEY,
+            {
+                expiresIn: '7d'
+            }
+        )
+
+        return {
+            authorization_token
+        }
+
+    }
 }
 
 export default AuthService

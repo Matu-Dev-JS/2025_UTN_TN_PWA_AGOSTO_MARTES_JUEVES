@@ -61,8 +61,44 @@ class AuthController {
         }
 
     }
-    static async login() {
+    static async login(request, response) {
+        try{
+            const {email, password} = request.body
 
+            /* 
+            - Validar que el email y password sean validas
+            */
+            const { authorization_token } = await AuthService.login(email, password)
+            return response.json({
+                ok: false,
+                message: 'Logueado con exito',
+                status: 200,
+                data: {
+                    authorization_token: authorization_token
+                }
+            })
+        }
+        catch (error) {
+            console.log(error)
+            if (error.status) {
+                return response.status(error.status).json(
+                    {
+                        ok: false,
+                        status: error.status,
+                        message: error.message
+                    }
+                )
+            }
+            else {
+                return response.status(500).json(
+                    {
+                        ok: false,
+                        status: 500,
+                        message: 'Error interno del servidor'
+                    }
+                )
+            }
+        }
     }
 
     static async verifyEmail(request, response) {
@@ -99,5 +135,7 @@ class AuthController {
         }
     }
 }
+
+
 
 export default AuthController   
