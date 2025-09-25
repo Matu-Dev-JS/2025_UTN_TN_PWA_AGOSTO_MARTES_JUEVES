@@ -32,17 +32,33 @@ const RegisterScreen = () => {
     <div>
         <h1>Registrate</h1>
         <form onSubmit={handleSubmit}>
-            {/* 
-            name, email, password (No hace falta validacion)
-            Armar un formulario con los campos solicitidos
-            Crear una funcion handleSubmit que muestre por consola lo valores de cada campo del formulario (Debe guardarse como un objeto en una variable o estado)
-            */}
+
             <div>
                 <label htmlFor={FORM_FIELDS.NAME} >Nombre:</label>
                 <input 
                     name={FORM_FIELDS.NAME}  
                     id={FORM_FIELDS.NAME} 
                     type='text' 
+                    onChange={handleInputChange}
+                />
+            </div>
+            <div>
+
+            
+                <label htmlFor={FORM_FIELDS.EMAIL} >Email:</label>
+                <input 
+                    name={FORM_FIELDS.EMAIL}  
+                    id={FORM_FIELDS.EMAIL} 
+                    type='email' 
+                    onChange={handleInputChange}
+                />
+            </div>
+            <div>
+                <label htmlFor={FORM_FIELDS.PASSWORD} >Contraseña:</label>
+                <input 
+                    name={FORM_FIELDS.PASSWORD}  
+                    id={FORM_FIELDS.PASSWORD} 
+                    type='password' 
                     onChange={handleInputChange}
                 />
             </div>
