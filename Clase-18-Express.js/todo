@@ -1,0 +1,21 @@
+
+Como hacer una restablecimiento de contraseña:
+
+GET /api/auth/forgot-password/:user_email
+    - Validar que el email pertenezca a un usuario
+    - Crear un token con el user_id
+    - Enviar un mail al usuario con el link de restablecimiento (este link tendra el token creado)
+    Ejemplo de link de restablecimiento:
+        http://url_frontend.com/reset-password/:reset_token
+
+Del lado del frontend hay que hacer un formulario que te solicite la nueva contraseña y una vez enviado debe enviar tanto la contraseña nueva como el reset_token
+
+POST /api/auth/reset-password/:reset_token
+    Por body:
+    {
+        new_password
+    }
+    - Validar token
+    - Encriptar nueva contraseña
+    - Actualizar la contraseña en la DB
+    
