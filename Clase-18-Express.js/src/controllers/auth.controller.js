@@ -13,8 +13,8 @@ class AuthController {
                 email, 
                 password
             } = request.body
-
-            if(!username){
+            console.log(request.body)
+            /* if(!username){
                 throw new ServerError(
                     400, 
                     'Debes enviar un nombre de usuario valido'
@@ -32,7 +32,7 @@ class AuthController {
                     'Debes enviar una contraseña valida'
                 )
             }
-            await AuthService.register(username, password, email)
+            await AuthService.register(username, password, email) */
 
             response.json({
                 ok: true

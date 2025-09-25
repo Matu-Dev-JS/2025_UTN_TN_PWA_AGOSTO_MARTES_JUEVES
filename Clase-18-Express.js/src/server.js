@@ -1,7 +1,6 @@
 import ENVIRONMENT from "./config/environment.config.js";
 import connectMongoDB from "./config/mongoDB.config.js";
 import workspace_router from "./routes/workspace.route.js";
-import jwt from 'jsonwebtoken'
 
 /* 
 sing: Se usa para firmar tokens
@@ -30,10 +29,13 @@ connectMongoDB()
 import express from 'express'
 import auth_router from "./routes/auth.router.js";
 import UserRepository from "./repositories/user.repository.js";
+import cors from 'cors'
+
 
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 
 

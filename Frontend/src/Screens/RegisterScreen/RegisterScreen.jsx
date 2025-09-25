@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import useForm from '../../hooks/useForm'
+import { register } from '../../services/authService'
 
 const RegisterScreen = () => {
     const FORM_FIELDS = {
@@ -27,7 +28,7 @@ const RegisterScreen = () => {
             onSubmit: onRegister
         }
     )
-
+    register('pepe', 'pepe@gmail.com', 'pepe_123')
   return (
     <div>
         <h1>Registrate</h1>
