@@ -35,7 +35,9 @@ class AuthController {
             await AuthService.register(username, password, email) */
 
             response.json({
-                ok: true
+                ok: true,
+                status: 200,
+                message: 'Usuario registrado correctamente'
             })
         }
         catch (error) {

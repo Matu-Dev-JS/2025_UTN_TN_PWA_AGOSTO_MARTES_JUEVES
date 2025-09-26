@@ -13,7 +13,7 @@ export async function register (name, email, password){
 
     //Ordena al navegador hacer una consulta HTTP
     //recibe 2 parametros: la URL de consulta y un objeto de configuracion de consulta
-    await fetch(
+    const response_http = await fetch(
         'http://localhost:8080/api/auth/register',
         {
             method: HTTP_METHODS.POST,
@@ -24,6 +24,10 @@ export async function register (name, email, password){
             body: JSON.stringify(usuario)
         }
     )
+
+    //Transformamos a objeto de JS el body de la respuesta
+    const response_data = await response_http.json()
+    return response_data
 }
 
 function login (){
