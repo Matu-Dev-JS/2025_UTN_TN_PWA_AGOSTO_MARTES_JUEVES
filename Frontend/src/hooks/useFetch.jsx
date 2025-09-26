@@ -10,6 +10,7 @@ const useFetch = () =>{
         try{
             //Marcamos que estamos cargando
             setLoading(true)
+            setError(null)
 
             //Ejecutamos la consulta HTTP
             const response = await requestCallback()

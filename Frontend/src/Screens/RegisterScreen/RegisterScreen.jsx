@@ -24,11 +24,13 @@ const RegisterScreen = () => {
     } = useFetch()
 
     const onRegister = (form_state) => {
-        sendRequest( () => register(
-            form_state[FORM_FIELDS.NAME], 
-            form_state[FORM_FIELDS.EMAIL], 
-            form_state[FORM_FIELDS.PASSWORD]
-        ))
+        sendRequest( () => {
+            register(
+                form_state[FORM_FIELDS.NAME], 
+                form_state[FORM_FIELDS.EMAIL], 
+                form_state[FORM_FIELDS.PASSWORD]
+            )
+        })
     }   
 
     const {
@@ -43,7 +45,7 @@ const RegisterScreen = () => {
     )
 
 
-
+    console.log(loading)
     return (
         <div>
             <h1>Registrate</h1>
@@ -78,7 +80,19 @@ const RegisterScreen = () => {
                         onChange={handleInputChange}
                     />
                 </div>
-                <button type='submit'>Registrarse</button>
+                {
+                    !response
+                    ? <button type='submit' disabled={loading}>Registrarse</button>
+                    : <>
+                        <button type='submit' disabled={true}>Registrado</button>
+                        <span style={{color: 'green'}}>{response.message}</span>
+                    </>
+                }
+                {
+                    error && <span style={{color: 'red'}}>{error.message}</span>
+                }
+               
+                
             </form>
         </div>
     )

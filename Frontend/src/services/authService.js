@@ -5,7 +5,7 @@ import { CONTENT_TYPE_VALUES, HEADERS, HTTP_METHODS } from "../constants/http"
 export async function register (name, email, password){
     const usuario = {
         email,
-        name,
+        username: name,
         password
     }
 
@@ -27,6 +27,9 @@ export async function register (name, email, password){
 
     //Transformamos a objeto de JS el body de la respuesta
     const response_data = await response_http.json()
+    if( !response_data.ok ){
+        throw new Error(response_data.message)
+    }
     return response_data
 }
 
