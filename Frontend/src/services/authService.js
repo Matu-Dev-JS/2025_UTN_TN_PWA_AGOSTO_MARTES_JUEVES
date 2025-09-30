@@ -2,7 +2,7 @@ import { CONTENT_TYPE_VALUES, HEADERS, HTTP_METHODS } from "../constants/http"
 
 
 
-export async function register (name, email, password){
+export async function register(name, email, password) {
     const usuario = {
         email,
         username: name,
@@ -27,12 +27,26 @@ export async function register (name, email, password){
 
     //Transformamos a objeto de JS el body de la respuesta
     const response_data = await response_http.json()
-    if( !response_data.ok ){
+    if (!response_data.ok) {
         throw new Error(response_data.message)
     }
     return response_data
 }
 
-function login (){
+export async function login(email, password) {
+    const response = await fetch(
+        'http://localhost:8080/api/auth/login',
+        {
+            method: HTTP_METHODS.POST,
+            headers: {
+                [HEADERS.CONTENT_TYPE]: CONTENT_TYPE_VALUES.JSON,
+            },
+            body: JSON.stringify({ email, password })
+        })
+    const response_data = await response.json()
 
+    if (!response.ok) {
+        throw new Error(response_data.message)
+    }
+    return response_data
 }
