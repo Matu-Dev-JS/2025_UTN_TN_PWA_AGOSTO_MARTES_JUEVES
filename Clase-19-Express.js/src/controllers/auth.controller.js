@@ -72,7 +72,7 @@ class AuthController {
             */
             const { authorization_token } = await AuthService.login(email, password)
             return response.json({
-                ok: false,
+                ok: true,
                 message: 'Logueado con exito',
                 status: 200,
                 data: {

@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import useFetch from '../../hooks/useFetch.jsx'
 import useForm from '../../hooks/useForm.jsx'
 import {login} from '../../services/authService.js'
+import { useNavigate } from 'react-router'
+import LOCALSTORAGE_KEYS from '../../constants/localstorage.js'
 
 const FORM_FIELDS = {
     EMAIL: 'email',
@@ -14,6 +16,8 @@ const initial_form_state = {
 }
 
 export const LoginScreen = () => {
+
+    const navigate = useNavigate()
 
     const {
         sendRequest,
@@ -28,6 +32,18 @@ export const LoginScreen = () => {
             form_state[FORM_FIELDS.PASSWORD]
         ))
     }
+
+    useEffect(
+      () =>{
+        console.log(response)
+        if(response && response.ok){
+          //Guardamos el token emitido por el backend, para despues usarlo como credencial
+          localStorage.setItem(LOCALSTORAGE_KEYS.AUTH_TOKEN, response.data.authorization_token)
+          navigate('/home')
+        }
+      },
+      [response]
+    )
 
     const {
         form_state: login_form_state,
