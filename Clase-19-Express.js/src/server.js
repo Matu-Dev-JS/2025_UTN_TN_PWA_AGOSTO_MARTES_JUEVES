@@ -30,6 +30,7 @@ import express from 'express'
 import auth_router from "./routes/auth.router.js";
 import UserRepository from "./repositories/user.repository.js";
 import cors from 'cors'
+import authMiddleware from "./middleware/auth.middleware.js";
 
 
 
@@ -41,6 +42,38 @@ app.use(express.json())
 
 app.use('/api/workspace', workspace_router)
 app.use('/api/auth', auth_router)
+
+//Constructor de middlewares
+const randomMiddleware = (min_numero_random) => {
+    return (request, response, next) =>{
+        const numero_random = Math.random()
+        if(numero_random < min_numero_random){
+            response.send({message: 'Tienes mala suerte'})
+        }
+        else{
+            request.tieneSuerte = true
+            next()
+        }
+    }
+}
+
+/* 
+ */
+//Personalizar el randomMiddleware para que podamos configurar el numero minimo de suerte (0.5 por defecto)
+
+app.get('/test',  randomMiddleware(0.9), (request, response) => {
+    console.log(request.tieneSuerte)
+    response.send({
+        ok: true
+    })
+})
+
+app.get('/ruta-protegida', authMiddleware, (request, response) => {
+    console.log(request.user)
+    response.send({
+        ok: true
+    })
+})
 
 
 
