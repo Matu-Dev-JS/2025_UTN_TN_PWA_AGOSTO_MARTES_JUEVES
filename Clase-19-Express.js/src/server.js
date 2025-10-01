@@ -31,6 +31,7 @@ import auth_router from "./routes/auth.router.js";
 import UserRepository from "./repositories/user.repository.js";
 import cors from 'cors'
 import authMiddleware from "./middleware/auth.middleware.js";
+import MemberWorkspaceRepository from "./repositories/memeberWorkspace.repository.js";
 
 
 
@@ -83,3 +84,9 @@ app.listen(
         console.log("Esto esta funcionado")
     }
 )
+
+/* MemberWorkspaceRepository.create(
+    '68d333697f90d40f450edb15', 
+    '68b790eea6301ea1e4ac1727'
+) */
+MemberWorkspaceRepository.getAllWorkspacesByUserId('68d333697f90d40f450edb15')
